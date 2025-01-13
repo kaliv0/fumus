@@ -1,0 +1,23 @@
+[project]
+name = "serpio"
+version = "0.1.0"
+readme = "README.md"
+license = "LICENSE"
+description = "Functional-style Streams library for processing collections. Provides easy integration with itertools"
+authors = [{name = "kaliv0", email = "kaloyan.ivanov88@gmail.com"}]
+keywords = ["stream", "functional", "processing", "collections", "fluent API", "queries"]
+repository = "https://github.com/kaliv0/serpio"
+documentation = "https://serpio.readthedocs.io/en/latest"
+
+requires-python = ">=3.12"
+
+[dependency-groups]
+dev = [
+    "myst-nb>=1.1.2",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.9.1",
+    "sphinx>=8.1.3",
+    "sphinx-autoapi>=3.4.0",
+    "sphinx-rtd-theme>=3.0.2",
+]
