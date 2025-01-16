@@ -1,4 +1,3 @@
-from collections.abc import Iterable, Sized
 import itertools as it
 import operator
 
@@ -6,7 +5,10 @@ from serpio.utils import Optional
 
 
 class ItertoolsMixin:
-    iterable: Iterable | Sized  # TODO: remove?
+    NO_SIGNATURE_FUNCTIONS = {"chain", "islice", "product", "repeat", "zip_longest"}
+    NO_KWARGS_FUNCTIONS = {"dropwhile", "filterfalse", "starmap", "takewhile", "tee"}
+
+    iterable = None
 
     def use(self, it_function, **kwargs):
         """Provides integration with itertools methods; pass corresponding parameters as kwargs"""
@@ -22,9 +24,7 @@ class ItertoolsMixin:
         return self._handle_default_signature_functions(signature, it_function, **kwargs)
 
     def _handle_no_signature_functions(self, it_function, **kwargs):
-        NO_SIGNATURE_FUNCTIONS = {"chain", "islice", "product", "repeat", "zip_longest"}
-
-        if it_function.__name__ not in NO_SIGNATURE_FUNCTIONS:
+        if it_function.__name__ not in self.NO_SIGNATURE_FUNCTIONS:
             return False
 
         if it_function.__name__ in ("product", "zip_longest"):
@@ -39,15 +39,13 @@ class ItertoolsMixin:
         return True
 
     def _handle_no_kwargs_functions(self, signature, it_function, **kwargs):
-        NO_KWARGS_FUNCTIONS = {"dropwhile", "filterfalse", "starmap", "takewhile", "tee"}
-
         # handle functions that take only iterable as arg
         if len(signature.keys()) == 1 and "iterable" in signature:
             self.iterable = it_function(self.iterable)
             return True
 
         # handle functions that take no kwargs
-        if it_function.__name__ in NO_KWARGS_FUNCTIONS:
+        if it_function.__name__ in self.NO_KWARGS_FUNCTIONS:
             if it_function.__name__ == "tee":
                 self.iterable = it_function(self.iterable, *kwargs.values())
             else:

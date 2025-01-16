@@ -103,13 +103,14 @@ def test_itertools_groupby():
         "D": ["D"],
     }
 
-    assert (Stream("AAAABBBCCD").use(it.groupby, key=lambda x: x if x in {'B', 'C'} else 2 * x)
-            .to_dict(lambda x: (x[0], list(x[1]))) == {
+    assert Stream("AAAABBBCCD").use(
+        it.groupby, key=lambda x: x if x in {"B", "C"} else 2 * x
+    ).to_dict(lambda x: (x[0], list(x[1]))) == {
         "AA": ["A", "A", "A", "A"],
         "B": ["B", "B", "B"],
         "C": ["C", "C"],
         "DD": ["D"],
-    })
+    }
 
 
 def test_itertools_islice():
