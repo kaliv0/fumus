@@ -21,7 +21,7 @@ def test_optional_of_none_raises():
 
 def test_print_optional():
     assert str(Optional.of(2)) == "Optional[2]"
-    assert str(Optional.of_nullable(None)) == "Optional[None]"
+    assert str(Optional.of_nullable(None)) == "Optional.empty"
 
 
 def test_is_empty():
@@ -90,3 +90,9 @@ def test_or_else_raise_custom_supplier(Foo):
     with pytest.raises(DamnItError) as e:
         Optional.empty().or_else_raise(damn_it_supplier)
     assert str(e.value) == err_msg
+
+def test_equality():
+    assert Optional.of(1) == Optional.of(1)
+    assert Optional.of(1) != Optional.of(2)
+    assert Optional.of(1) != Optional.empty()
+    assert Optional.empty() == Optional.empty()

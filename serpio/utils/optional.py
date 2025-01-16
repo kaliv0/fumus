@@ -7,28 +7,25 @@ class Optional:
     def __init__(self, element):
         self._element = element
 
-    def __str__(self):
-        return f"Optional[{self._element}]"
-
-    @staticmethod
-    def empty():
+    @classmethod
+    def empty(cls):
         """Creates empty Optional"""
-        return Optional(None)
+        return cls(None)
 
-    @staticmethod
-    def of(element):
+    @classmethod
+    def of(cls, element):
         """Creates Optional describing given non-null value"""
         if element is None:
             raise NoneTypeError("Value cannot be None")
-        return Optional(element)
+        return cls(element)
 
-    @staticmethod
-    def of_nullable(element):
+    @classmethod
+    def of_nullable(cls, element):
         """
         Returns an Optional describing the given value, if non-null,
         otherwise returns an empty Optional
         """
-        return Optional(element)
+        return cls(element)
 
     def get(self):
         """If a value is present, returns the value, otherwise raises an Exception"""
@@ -78,9 +75,41 @@ class Optional:
         otherwise throws an exception produced by the exception supplying function
         (if such is provided by the user) or NoSuchElementError
         """
-        if supplier is None:
+        if self.is_present():
+            return self._element
+        if supplier:
+            supplier()
+        raise NoSuchElementError("Optional is empty")
 
-            def supplier():
-                raise NoSuchElementError("Optional is empty")
+    def map(self, mapper):
+        if self.is_present():
+            return Optional.of_nullable(mapper(self._element))
+        return self
 
-        return self._element if self.is_present() else supplier()
+    def flat_map(self, mapper):
+        if self.is_present():
+            result = mapper(self._element)
+            if isinstance(result, Optional):
+                return result
+            return Optional.of_nullable(mapper(self._element))
+        return self
+
+    def filter(self, predicate):
+        if self.is_present:
+            if predicate(self._element):
+                return self
+            return Optional.empty()
+        return self
+
+    def __repr__(self):
+        if self.is_present():
+            return f"Optional[{self._element}]"
+        return f"Optional.empty"
+
+    def __eq__(self, other):
+        if self.is_present() and other.is_present():
+            return self.get() == other.get()
+        return self.is_empty() and other.is_empty()
+
+    def __hash__(self):
+        return hash(self._element) if self.is_present() else 0

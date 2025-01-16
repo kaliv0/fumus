@@ -1,0 +1,7 @@
+Optional:
+    filter, flat_map, map, eq, hash
+    add tests and docstr for them
+
+Result:
+    add docstr, tests
+    do we need hash, equals?
