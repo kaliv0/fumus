@@ -1,4 +1,6 @@
+import functools
 import io
+import operator
 from contextlib import redirect_stdout
 
 import pytest
@@ -93,6 +95,32 @@ def test_or_else_raise_custom_supplier(Foo):
     assert str(e.value) == err_msg
 
 
+def test_map():
+    assert Optional.of([6, 8, 10]).map(lambda x: functools.reduce(operator.mul, x)).get() == 480
+    assert Optional.of(42).map(lambda x: None).is_empty()
+    # map never gest called
+    assert Optional.empty().map(lambda x: functools.reduce(operator.mul, x)).is_empty()
+
+
+def test_flat_map():
+    assert Optional.of([6, 8, 10]).flat_map(lambda x: Optional.of(max(x))).get() == 10
+    assert Optional.of(42).map(lambda x: x * 2).get() == 84
+
+
+def test_filter():
+    assert Optional.of([1, 2, 3, 4, 5, 6]).filter(lambda x: max(x) % 2 == 0).get() == [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+    ]
+    assert Optional.of([1, 2, 3, 4, 5, 6]).filter(lambda x: max(x) % 5 == 0).is_empty()
+    # filter never gets called
+    assert Optional.empty().filter(lambda x: max(x) % 5 == 0).is_empty()
+
+
 def test_equality():
     assert Optional.of(1) == Optional.of(1)
     assert Optional.of(1) != Optional.of(2)
@@ -100,8 +128,12 @@ def test_equality():
     assert Optional.empty() == Optional.empty()
 
 
-####### decorators ####
-# TODO: extract tests
+def test_repr():
+    assert str(Optional.of({1, 2, 3})) == "Optional[{1, 2, 3}]"
+    assert str(Optional.empty()) == "Optional.empty"
+
+
+####### decorator ####
 def test_returns_optional_decorator():
     @returns_optional
     def fizz(x, y):

@@ -82,11 +82,20 @@ class Optional:
         raise NoSuchElementError("Optional is empty")
 
     def map(self, mapper):
+        """
+        If a value is present, apply the provided mapping function to it,
+        and if the result is non-null, return an Optional describing the result.
+        Otherwise return an empty Optional
+        """
         if self.is_present():
             return Optional.of_nullable(mapper(self._element))
         return self
 
     def flat_map(self, mapper):
+        """
+        Similar to map(), but if the provided mapper returns an Optional,
+        the result isn't wrapped-up in an additional one.
+        """
         if self.is_present():
             result = mapper(self._element)
             if isinstance(result, Optional):
@@ -95,7 +104,11 @@ class Optional:
         return self
 
     def filter(self, predicate):
-        if self.is_present:
+        """
+        If a value is present, and the value matches the given predicate,
+        returns an Optional describing the value, otherwise returns an empty Optional
+        """
+        if self.is_present():
             if predicate(self._element):
                 return self
             return Optional.empty()

@@ -2,6 +2,8 @@ from functools import wraps
 
 from fumus.utils import Optional, Result
 
+# Naive implementations -> one could do better than this
+
 
 def returns_optional(func):
     @wraps(func)
@@ -14,8 +16,7 @@ def returns_optional(func):
 def returns_result(func):
     @wraps(func)
     def wrapper(*args, **kw):
-        # TODO: receive custom list of exceptions form user
-        #  do we need BaseException
+        # TODO do we need BaseException
         #  what if we have more complex scenario with multiple errors etc?
         try:
             result = func(*args, *kw)
