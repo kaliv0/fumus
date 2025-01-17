@@ -6,4 +6,4 @@ exports available to user:
 write tests and docs for Result
 
 add Try pattern
-add pipe()/.then()/.compose()??
+add pipe()/.then()/.compose() (??)
