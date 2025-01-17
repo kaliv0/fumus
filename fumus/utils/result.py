@@ -1,4 +1,4 @@
-from fumus import Optional
+from fumus.utils import Optional
 
 
 class Result:
