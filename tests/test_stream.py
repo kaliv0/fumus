@@ -5,8 +5,8 @@ from operator import itemgetter
 
 import pytest
 
-from serpio import Stream, Optional, DictItem
-from serpio.exceptions import IllegalStateError, UnsupportedTypeError, NoneTypeError
+from fumus import Stream, Optional, DictItem
+from fumus.exceptions import IllegalStateError, UnsupportedTypeError, NoneTypeError
 
 
 def test_stream():

@@ -1,10 +1,11 @@
 from collections.abc import Mapping
 from functools import singledispatchmethod
 
-from serpio.utils import Optional, DictItem
-from serpio.decorators import pre_call, handle_consumed
-from serpio.exceptions import NoneTypeError, UnsupportedTypeError, IllegalStateError
-from serpio.iterators import StreamGenerator, ItertoolsMixin
+from fumus.streams.itertools_mixin import ItertoolsMixin
+from fumus.streams.stream_generator import StreamGenerator
+from fumus.utils import Optional, DictItem
+from fumus.decorators import pre_call, handle_consumed
+from fumus.exceptions import NoneTypeError, UnsupportedTypeError, IllegalStateError
 
 
 @pre_call(handle_consumed)

@@ -3,8 +3,8 @@ from contextlib import redirect_stdout
 
 import pytest
 
-from serpio import Optional
-from serpio.exceptions import NoSuchElementError, NoneTypeError
+from fumus import Optional
+from fumus.exceptions import NoSuchElementError, NoneTypeError
 
 
 def test_optional_get_raises():
@@ -90,6 +90,7 @@ def test_or_else_raise_custom_supplier(Foo):
     with pytest.raises(DamnItError) as e:
         Optional.empty().or_else_raise(damn_it_supplier)
     assert str(e.value) == err_msg
+
 
 def test_equality():
     assert Optional.of(1) == Optional.of(1)

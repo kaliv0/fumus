@@ -3,7 +3,7 @@ import operator
 
 import pytest
 
-from serpio import Stream
+from fumus import Stream
 
 
 def test_accumulate():

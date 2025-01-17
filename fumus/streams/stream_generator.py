@@ -1,6 +1,6 @@
 from collections.abc import Iterable
 
-from serpio.decorators import map_dict_items
+from fumus.decorators import map_dict_items
 
 
 class StreamGenerator:

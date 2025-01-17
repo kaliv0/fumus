@@ -1,6 +1,6 @@
 from functools import wraps
 
-from serpio.exceptions import IllegalStateError
+from fumus.exceptions import IllegalStateError
 
 TERMINAL_FUNCTIONS = [
     "for_each",
@@ -44,7 +44,7 @@ def pre_call(function_decorator):
 def handle_consumed(func):
     @wraps(func)
     def wrapper(*args, **kw):
-        from serpio.streams.stream import Stream
+        from fumus.streams.stream import Stream
 
         stream = args[0] if args else None
         if not (stream and isinstance(stream, Stream)):

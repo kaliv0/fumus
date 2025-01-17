@@ -1,4 +1,4 @@
-from serpio.exceptions import NoSuchElementError, NoneTypeError
+from fumus.exceptions import NoSuchElementError, NoneTypeError
 
 
 class Optional:
@@ -104,7 +104,7 @@ class Optional:
     def __repr__(self):
         if self.is_present():
             return f"Optional[{self._element}]"
-        return f"Optional.empty"
+        return "Optional.empty"
 
     def __eq__(self, other):
         if self.is_present() and other.is_present():

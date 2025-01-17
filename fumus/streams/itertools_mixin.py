@@ -1,7 +1,7 @@
 import itertools as it
 import operator
 
-from serpio.utils import Optional
+from fumus.utils import Optional
 
 
 class ItertoolsMixin:

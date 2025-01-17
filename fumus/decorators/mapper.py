@@ -1,7 +1,7 @@
 from collections.abc import Mapping
 from functools import wraps
 
-from serpio.utils import DictItem
+from fumus.utils import DictItem
 
 
 def map_dict_items(func):
