@@ -1,7 +1,9 @@
-Optional:
-    filter, flat_map, map, eq, hash
-    add docstr for them
+exports available to user:
+- Stream (from fumus)
+- Optional, Result (from fumus.utils)
+- returns_optional/result (from fumus.decorators)
 
-Result:
-    add docstr, tests
-    do we need hash, equals?
+write tests and docs for Result
+
+add Try pattern
+add pipe()/.then()/.compose()??

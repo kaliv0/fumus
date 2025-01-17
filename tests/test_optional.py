@@ -5,7 +5,7 @@ from contextlib import redirect_stdout
 
 import pytest
 
-from fumus import Optional, Result
+from fumus.utils import Optional, Result
 from fumus.decorators import returns_optional, returns_result
 from fumus.exceptions import NoSuchElementError, NoneTypeError
 
@@ -28,8 +28,8 @@ def test_print_optional():
 
 
 def test_is_empty():
-    assert Optional.of(3).is_empty() is False
-    assert Optional.of_nullable(None).is_empty()
+    assert Optional.of(3).is_empty is False
+    assert Optional.of_nullable(None).is_empty
 
 
 def test_get():
@@ -37,7 +37,7 @@ def test_get():
 
 
 def test_is_present():
-    assert Optional.of(3).is_present()
+    assert Optional.of(3).is_present
 
 
 def test_if_present():
@@ -97,9 +97,9 @@ def test_or_else_raise_custom_supplier(Foo):
 
 def test_map():
     assert Optional.of([6, 8, 10]).map(lambda x: functools.reduce(operator.mul, x)).get() == 480
-    assert Optional.of(42).map(lambda x: None).is_empty()
+    assert Optional.of(42).map(lambda x: None).is_empty
     # map never gest called
-    assert Optional.empty().map(lambda x: functools.reduce(operator.mul, x)).is_empty()
+    assert Optional.empty().map(lambda x: functools.reduce(operator.mul, x)).is_empty
 
 
 def test_flat_map():
@@ -108,17 +108,10 @@ def test_flat_map():
 
 
 def test_filter():
-    assert Optional.of([1, 2, 3, 4, 5, 6]).filter(lambda x: max(x) % 2 == 0).get() == [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-    ]
-    assert Optional.of([1, 2, 3, 4, 5, 6]).filter(lambda x: max(x) % 5 == 0).is_empty()
+    assert Optional.of([1, 2, 3]).filter(lambda x: max(x) % 2 != 0).get() == [1, 2, 3]
+    assert Optional.of([1, 2, 3, 4, 5, 6]).filter(lambda x: max(x) % 5 == 0).is_empty
     # filter never gets called
-    assert Optional.empty().filter(lambda x: max(x) % 5 == 0).is_empty()
+    assert Optional.empty().filter(lambda x: max(x) % 5 == 0).is_empty
 
 
 def test_equality():
@@ -143,12 +136,12 @@ def test_returns_optional_decorator():
     num2 = 2
     result = fizz(num1, num2)
     assert isinstance(result, Optional)
-    assert result.is_present()
+    assert result.is_present
     assert result.get() == 3
 
     num1 = num2 = 0
     result = fizz(num1, num2)
-    assert result.is_empty()
+    assert result.is_empty
 
 
 def test_returns_result():
@@ -163,15 +156,15 @@ def test_returns_result():
     num2 = 2
     result = buzz(num1, num2)
     assert isinstance(result, Result)
-    assert result._is_successful  # TODO: make public
-    assert result._value == 3  # TODO: same
+    assert result.is_successful
+    assert result.value == 3
 
     # failure
     num1 = num2 = 0
     result = buzz(num1, num2)
-    assert not result._is_successful
-    assert isinstance(result._error, ValueError)
-    assert str(result._error) == "x == y"
+    assert not result.is_successful
+    assert isinstance(result.error, ValueError)
+    assert str(result.error) == "x == y"
 
     # error chaining
     @returns_result
@@ -188,11 +181,8 @@ def test_returns_result():
 
     num1 = num2 = num3 = 0
     result = burr(num1, num2, num3)
-    # assert isinstance(result, Result)
-    assert not result._is_successful
-    assert isinstance(result._error, ArithmeticError)
-    assert str(result._error) == "all gone sideways"
-    assert isinstance(result._error.__cause__, ValueError)
-    assert str(result._error.__cause__) == "all vars equal"
-
-    # TODO: add __context__ and __cause__ in Result??
+    assert not result.is_successful
+    assert isinstance(result.error, ArithmeticError)
+    assert str(result.error) == "all gone sideways"
+    assert isinstance(result.error.__cause__, ValueError)
+    assert str(result.error.__cause__) == "all vars equal"

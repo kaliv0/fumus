@@ -5,7 +5,8 @@ from operator import itemgetter
 
 import pytest
 
-from fumus import Stream, Optional, DictItem
+from fumus import Stream
+from fumus.utils import Optional, DictItem
 from fumus.exceptions import IllegalStateError, UnsupportedTypeError, NoneTypeError
 
 
@@ -125,7 +126,7 @@ def test_reduce_no_identity_provided():
 
 
 def test_reduce_empty_collection():
-    assert Stream([]).reduce(lambda acc, val: acc + val).is_empty()
+    assert Stream([]).reduce(lambda acc, val: acc + val).is_empty
 
 
 def test_for_each():
@@ -412,8 +413,8 @@ def test_take_first():
     assert Stream.of(1, 2, 3, 4, 5).take_first().get() == 1
     assert Stream({"a": 1, "b": 2}).take_first().get() == DictItem(key="a", value=1)
 
-    assert Stream.empty().take_first().is_empty()
-    assert Stream([]).take_first().is_empty()
+    assert Stream.empty().take_first().is_empty
+    assert Stream([]).take_first().is_empty
 
     assert Stream([]).take_first(default=33).get() == 33
 
@@ -422,8 +423,8 @@ def test_take_last():
     assert Stream.of(1, 2, 3, 4, 5).take_last().get() == 5
     assert Stream({"a": 1, "b": 2}).take_last().get() == DictItem(key="b", value=2)
 
-    assert Stream.empty().take_last().is_empty()
-    assert Stream([]).take_last().is_empty()
+    assert Stream.empty().take_last().is_empty
+    assert Stream([]).take_last().is_empty
 
     assert Stream([]).take_last(default=33).get() == 33
 
@@ -585,7 +586,7 @@ def test_find_first_with_predicate():
 def test_find_first_in_empty_stream():
     result = Stream.empty().find_first()
     assert isinstance(result, Optional)
-    assert result.is_empty()
+    assert result.is_empty
 
 
 def test_find_any():
@@ -599,7 +600,7 @@ def test_find_any_with_predicate():
 def test_find_any_in_empty_stream():
     result = Stream.empty().find_any()
     assert isinstance(result, Optional)
-    assert result.is_empty()
+    assert result.is_empty
 
 
 # ### match ###
@@ -651,7 +652,7 @@ def test_min_comparator():
 def test_min_empty():
     result = Stream.empty().min()
     assert isinstance(result, Optional)
-    assert result.is_empty()
+    assert result.is_empty
 
 
 def test_min_default_value():
@@ -678,7 +679,7 @@ def test_max_comparator():
 def test_max_empty():
     result = Stream.empty().max()
     assert isinstance(result, Optional)
-    assert result.is_empty()
+    assert result.is_empty
 
 
 def test_max_default_value():

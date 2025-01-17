@@ -2,63 +2,75 @@ from fumus.utils import Optional
 
 
 class Result:
-    def __init__(self, value, error, is_successful):
-        # TODO: use slots?, or dataclass
-        self._value = value
-        self._error = error
-        self._is_successful = is_successful
+    __slots__ = (
+        "value",
+        "error",
+    )
 
-    def __str__(self):
-        return (
-            f"Result[value={self._value}, error={self._error}, is_successful={self._is_successful}]"
-        )
+    def __init__(self, value, error):
+        self.value = value
+        self.error = error
+
+    @property
+    def is_successful(self):
+        return self.error is None
 
     @classmethod
     def success(cls, value):
-        return cls(value, None, True)
+        return cls(value, None)
 
     @classmethod
     def failure(cls, error):
-        return cls(None, error, False)
+        return cls(None, error)
 
     def map_success(self, func):
-        if self._is_successful:
-            return Optional.of_nullable(self._value).map(func)
+        if self.is_successful:
+            return Optional.of_nullable(self.value).map(func)
         return Optional.empty()
 
     def map_failure(self, func):
-        if not self._is_successful:
-            return Optional.of_nullable(self._error).map(func)
+        if not self.is_successful:
+            return Optional.of_nullable(self.error).map(func)
         return Optional.empty()
 
     def map(self, success_func, failure_func):
-        if self._is_successful:
-            return success_func(self._value)
-        return failure_func(self._error)
+        if self.is_successful:
+            return success_func(self.value)
+        return failure_func(self.error)
 
-    # TODO: rename consumer to action/func?
     def if_success(self, consumer):
-        if self._is_successful:
-            consumer(self._value)
+        if self.is_successful:
+            consumer(self.value)
 
     def if_failure(self, consumer):
-        if not self._is_successful:
-            consumer(self._error)
+        if not self.is_successful:
+            consumer(self.error)
 
     def handle(self, success_func, failure_func):
-        if self._is_successful:
-            success_func(self._value)
-        failure_func(self._error)
+        if self.is_successful:
+            success_func(self.value)
+        failure_func(self.error)
 
     def or_else(self, other):
-        return self._value if self._is_successful else other
+        return self.value if self.is_successful else other
 
     def or_else_get(self, supplier):
-        return self._value if self._is_successful else supplier()
+        return self.value if self.is_successful else supplier()
 
     def or_else_raise(self, supplier=None):
-        if self._is_successful:
-            return self._value
+        if self.is_successful:
+            return self.value
         if supplier:
-            supplier(self._error)
-        raise self._error
+            supplier(self.error)
+        raise self.error
+
+    def __str__(self):
+        return f"Result[value={self.value}, error={self.error}, is_successful={self.is_successful}]"
+
+    def __eq__(self, other):
+        if self.is_successful and other.is_successful:
+            return self.value == other.value
+        return False
+
+    def __hash__(self):
+        return hash(self.value) if self.is_successful else 0

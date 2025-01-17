@@ -56,7 +56,7 @@ class Stream(ItertoolsMixin):
 
     @singledispatchmethod  # noqa
     @classmethod
-    def from_range(cls, *range_list: int):  # Unpack[tuple[int, ...]]):  # TODO
+    def from_range(cls, *range_list: int):
         """Creates Stream from start (inclusive) to stop (exclusive) by an incremental step"""
         return cls(StreamGenerator.range(*range_list))
 

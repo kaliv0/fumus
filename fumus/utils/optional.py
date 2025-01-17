@@ -4,6 +4,8 @@ from fumus.exceptions import NoSuchElementError, NoneTypeError
 class Optional:
     """Container object which may (or may not) contain a non-null value"""
 
+    __slots__ = ("_element",)
+
     def __init__(self, element):
         self._element = element
 
@@ -29,28 +31,30 @@ class Optional:
 
     def get(self):
         """If a value is present, returns the value, otherwise raises an Exception"""
-        if self.is_empty():
+        if self.is_empty:
             raise NoSuchElementError("Optional is empty")
         return self._element
 
+    @property
     def is_present(self):
         """Returns bool whether a value is present"""
-        return not self.is_empty()
+        return not self.is_empty
 
+    @property
     def is_empty(self):
         """Returns bool whether the Optional is empty"""
         return self._element is None
 
     def if_present(self, action):
         """Performs given action with the value if the Optional is not empty"""
-        if self.is_present():
+        if self.is_present:
             action(self.get())
 
     def if_present_or_else(self, action, empty_action):
         """Performs given action with the value if the Optional is not empty,
         otherwise calls fallback 'empty_action'
         """
-        if self.is_present():
+        if self.is_present:
             action(self.get())
         else:
             empty_action()
@@ -60,14 +64,14 @@ class Optional:
         Returns the value if present, or a provided argument otherwise.
         Safe alternative to get() method
         """
-        return self._element if self.is_present() else value
+        return self._element if self.is_present else value
 
     def or_else_get(self, supplier):
         """
         Returns the value if present, or calls a 'supplier' function otherwise.
         Safe alternative to get() method
         """
-        return self._element if self.is_present() else supplier()
+        return self._element if self.is_present else supplier()
 
     def or_else_raise(self, supplier=None):
         """
@@ -75,7 +79,7 @@ class Optional:
         otherwise throws an exception produced by the exception supplying function
         (if such is provided by the user) or NoSuchElementError
         """
-        if self.is_present():
+        if self.is_present:
             return self._element
         if supplier:
             supplier()
@@ -87,7 +91,7 @@ class Optional:
         and if the result is non-null, return an Optional describing the result.
         Otherwise return an empty Optional
         """
-        if self.is_present():
+        if self.is_present:
             return Optional.of_nullable(mapper(self._element))
         return self
 
@@ -96,7 +100,7 @@ class Optional:
         Similar to map(), but if the provided mapper returns an Optional,
         the result isn't wrapped-up in an additional one.
         """
-        if self.is_present():
+        if self.is_present:
             result = mapper(self._element)
             if isinstance(result, Optional):
                 return result
@@ -108,21 +112,21 @@ class Optional:
         If a value is present, and the value matches the given predicate,
         returns an Optional describing the value, otherwise returns an empty Optional
         """
-        if self.is_present():
+        if self.is_present:
             if predicate(self._element):
                 return self
             return Optional.empty()
         return self
 
     def __repr__(self):
-        if self.is_present():
+        if self.is_present:
             return f"Optional[{self._element}]"
         return "Optional.empty"
 
     def __eq__(self, other):
-        if self.is_present() and other.is_present():
+        if self.is_present and other.is_present:
             return self.get() == other.get()
-        return self.is_empty() and other.is_empty()
+        return self.is_empty and other.is_empty
 
     def __hash__(self):
-        return hash(self._element) if self.is_present() else 0
+        return hash(self._element) if self.is_present else 0

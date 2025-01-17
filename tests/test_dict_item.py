@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from fumus import DictItem
+from fumus.utils import DictItem
 
 
 def test_dict_item_map(json_dict):

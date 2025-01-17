@@ -234,7 +234,7 @@ def test_take_nth_negative_index():
 
 
 def test_take_nth_not_found():
-    assert Stream.empty().take_nth(2).is_empty()
+    assert Stream.empty().take_nth(2).is_empty
 
 
 def test_all_equal():
