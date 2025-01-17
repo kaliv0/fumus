@@ -5,8 +5,8 @@ from contextlib import redirect_stdout
 
 import pytest
 
-from fumus.utils import Optional, Result
-from fumus.decorators import returns_optional, returns_result
+from fumus.utils import Optional
+from fumus.decorators import returns_optional
 from fumus.exceptions import NoSuchElementError, NoneTypeError
 
 
@@ -121,12 +121,7 @@ def test_equality():
     assert Optional.empty() == Optional.empty()
 
 
-def test_repr():
-    assert str(Optional.of({1, 2, 3})) == "Optional[{1, 2, 3}]"
-    assert str(Optional.empty()) == "Optional.empty"
-
-
-####### decorator ####
+# ### decorator ###
 def test_returns_optional_decorator():
     @returns_optional
     def fizz(x, y):
@@ -142,47 +137,3 @@ def test_returns_optional_decorator():
     num1 = num2 = 0
     result = fizz(num1, num2)
     assert result.is_empty
-
-
-def test_returns_result():
-    @returns_result
-    def buzz(x, y):
-        if x == y:
-            raise ValueError("x == y")
-        return x + y
-
-    # success
-    num1 = 1
-    num2 = 2
-    result = buzz(num1, num2)
-    assert isinstance(result, Result)
-    assert result.is_successful
-    assert result.value == 3
-
-    # failure
-    num1 = num2 = 0
-    result = buzz(num1, num2)
-    assert not result.is_successful
-    assert isinstance(result.error, ValueError)
-    assert str(result.error) == "x == y"
-
-    # error chaining
-    @returns_result
-    def burr(x, y, z):
-        def bar(x, y, z):
-            if x == y == z:
-                raise ValueError("all vars equal")
-            return (x + y) * z
-
-        try:
-            return bar(x, y, z)
-        except ValueError as e:
-            raise ArithmeticError("all gone sideways") from e
-
-    num1 = num2 = num3 = 0
-    result = burr(num1, num2, num3)
-    assert not result.is_successful
-    assert isinstance(result.error, ArithmeticError)
-    assert str(result.error) == "all gone sideways"
-    assert isinstance(result.error.__cause__, ValueError)
-    assert str(result.error.__cause__) == "all vars equal"

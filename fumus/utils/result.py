@@ -65,7 +65,7 @@ class Result:
         raise self.error
 
     def __str__(self):
-        return f"Result[value={self.value}, error={self.error}, is_successful={self.is_successful}]"
+        return f"Result[value={self.value}, error={self.error}]"
 
     def __eq__(self, other):
         if self.is_successful and other.is_successful:
