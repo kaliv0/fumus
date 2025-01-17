@@ -3,7 +3,7 @@ exports available to user:
 - Optional, Result (from fumus.utils)
 - returns_optional/result (from fumus.decorators)
 
-write tests and docs for Result
+write docs for Result
 
 add Try pattern
 add pipe()/.then()/.compose() (??)

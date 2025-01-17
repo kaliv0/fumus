@@ -17,7 +17,6 @@ def returns_result(func):
     @wraps(func)
     def wrapper(*args, **kw):
         # TODO do we need BaseException
-        #  what if we have more complex scenario with multiple errors etc?
         try:
             result = func(*args, *kw)
         except (Exception, BaseException) as err:

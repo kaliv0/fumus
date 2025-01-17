@@ -7,7 +7,9 @@ class Result:
         "error",
     )
 
-    def __init__(self, value, error):
+    def __init__(self, value=None, error=None):
+        if value is None and error is None:
+            raise ValueError("Result's Value and Error cannot both be None")
         self.value = value
         self.error = error
 
@@ -17,11 +19,11 @@ class Result:
 
     @classmethod
     def success(cls, value):
-        return cls(value, None)
+        return cls(value)
 
     @classmethod
     def failure(cls, error):
-        return cls(None, error)
+        return cls(error=error)
 
     def map_success(self, func):
         if self.is_successful:
@@ -30,13 +32,13 @@ class Result:
 
     def map_failure(self, func):
         if not self.is_successful:
-            return Optional.of_nullable(self.error).map(func)
+            return Optional.of(self.error).map(func)
         return Optional.empty()
 
-    def map(self, success_func, failure_func):
+    def map(self, on_success, on_failure):
         if self.is_successful:
-            return success_func(self.value)
-        return failure_func(self.error)
+            return on_success(self.value)
+        return on_failure(self.error)
 
     def if_success(self, consumer):
         if self.is_successful:
@@ -46,10 +48,11 @@ class Result:
         if not self.is_successful:
             consumer(self.error)
 
-    def handle(self, success_func, failure_func):
+    def handle(self, on_success, on_failure):
         if self.is_successful:
-            success_func(self.value)
-        failure_func(self.error)
+            on_success(self.value)
+        else:
+            on_failure(self.error)
 
     def or_else(self, other):
         return self.value if self.is_successful else other
