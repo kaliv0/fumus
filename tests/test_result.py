@@ -4,7 +4,7 @@ from contextlib import redirect_stdout
 import pytest
 
 from fumus.decorators import returns_result
-from fumus.utils import Result
+from fumus.utils import Result, Optional
 
 
 def test_is_successful():
@@ -30,6 +30,7 @@ def test_failure():
 def test_map_success():
     res = Result.success(42)
     assert res.map_success(lambda x: x + 3).get() == 45
+    assert res.map_success(lambda x: Optional.of(x + 3)).get() == 45
     assert res.map_success(lambda x: None).is_empty
     # mapper isn't called
     assert Result.failure(ValueError("Oops")).map_success(lambda x: str(x)).is_empty
@@ -38,6 +39,7 @@ def test_map_success():
 def test_map_failure():
     res = Result.failure(ValueError("Oops"))
     assert res.map_failure(lambda err: str(err)).get() == "Oops"
+    assert res.map_failure(lambda err: Optional.of(str(err))).get() == "Oops"
 
     sad_msg = "We regret to inform you..."
     assert res.map_failure(lambda _: sad_msg).get() == sad_msg
@@ -47,7 +49,9 @@ def test_map_failure():
 
 def test_map():
     res = Result.success(42)
-    assert res.map(on_success=lambda x: x + 3, on_failure=lambda err: print(err, end="")) == 45
+    assert (
+        res.map(on_success=lambda x: x + 3, on_failure=lambda err: print(err, end="")).get() == 45
+    )
 
     fail = Result.failure(ValueError("Oops"))
     f = io.StringIO()

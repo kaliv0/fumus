@@ -97,14 +97,10 @@ def test_or_else_raise_custom_supplier(Foo):
 
 def test_map():
     assert Optional.of([6, 8, 10]).map(lambda x: functools.reduce(operator.mul, x)).get() == 480
+    assert Optional.of([6, 8, 10]).map(lambda x: Optional.of(max(x))).get() == 10
     assert Optional.of(42).map(lambda x: None).is_empty
     # map never gest called
     assert Optional.empty().map(lambda x: functools.reduce(operator.mul, x)).is_empty
-
-
-def test_flat_map():
-    assert Optional.of([6, 8, 10]).flat_map(lambda x: Optional.of(max(x))).get() == 10
-    assert Optional.of(42).map(lambda x: x * 2).get() == 84
 
 
 def test_filter():
