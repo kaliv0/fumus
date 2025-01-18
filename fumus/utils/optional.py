@@ -1,4 +1,4 @@
-from fumus.exceptions import NoSuchElementError, NoneTypeError
+from fumus.exceptions.exception import NoSuchElementError, NoneTypeError
 
 
 class Optional:

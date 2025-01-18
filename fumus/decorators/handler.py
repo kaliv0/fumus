@@ -1,6 +1,6 @@
 from functools import wraps
 
-from fumus.exceptions import IllegalStateError
+from fumus.exceptions.exception import IllegalStateError
 
 TERMINAL_FUNCTIONS = [
     "for_each",

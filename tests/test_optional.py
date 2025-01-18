@@ -7,7 +7,7 @@ import pytest
 
 from fumus.utils import Optional
 from fumus.decorators import returns_optional
-from fumus.exceptions import NoSuchElementError, NoneTypeError
+from fumus.exceptions.exception import NoSuchElementError, NoneTypeError
 
 
 def test_optional_get_raises():

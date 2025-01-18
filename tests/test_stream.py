@@ -7,7 +7,7 @@ import pytest
 
 from fumus import Query
 from fumus.utils import Optional, DictItem
-from fumus.exceptions import IllegalStateError, UnsupportedTypeError, NoneTypeError
+from fumus.exceptions.exception import IllegalStateError, UnsupportedTypeError, NoneTypeError
 
 
 def test_query():

@@ -130,7 +130,7 @@ def test_or_else_raise_custom_supplier():
 
 # ### decorator ###
 def test_returns_result():
-    @returns_result
+    @returns_result()
     def buzz(x, y):
         if x == y:
             raise ValueError("x == y")
@@ -158,7 +158,7 @@ def test_returns_result_error_chaining():
             raise ValueError("all vars equal")
         return (a + b) * c
 
-    @returns_result
+    @returns_result()
     def burr(x, y, z):
         try:
             return bar(x, y, z)
@@ -172,3 +172,31 @@ def test_returns_result_error_chaining():
     assert str(result.error) == "all gone sideways"
     assert isinstance(result.error.__cause__, ValueError)
     assert str(result.error.__cause__) == "all vars equal"
+
+
+def test_returns_result_user_exception():
+    @returns_result(TypeError, ZeroDivisionError)
+    def buzz(x, y):
+        return x / y
+
+    # success
+    num1 = 6
+    num2 = 3
+    result = buzz(num1, num2)
+    assert isinstance(result, Result)
+    assert result.is_successful
+    assert result.value == 2
+
+    # failure
+    num1 = 2
+    num2 = "x"
+    result = buzz(num1, num2)
+    assert not result.is_successful
+    assert isinstance(result.error, TypeError)
+    assert str(result.error) == "unsupported operand type(s) for /: 'int' and 'str'"
+
+    num1 = num2 = 0
+    result = buzz(num1, num2)
+    assert not result.is_successful
+    assert isinstance(result.error, ZeroDivisionError)
+    assert str(result.error) == "division by zero"

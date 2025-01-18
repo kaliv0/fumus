@@ -1,9 +1,0 @@
-exports available to user:
-- Query (from fumus)
-- Optional, Result (from fumus.utils)
-- returns_optional/result (from fumus.decorators)
-
-write docs for Result
-
-add Try pattern
-add pipe()/.then()/.compose() (??)

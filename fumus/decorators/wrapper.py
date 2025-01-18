@@ -13,14 +13,18 @@ def returns_optional(func):
     return wrapper
 
 
-def returns_result(func):
-    @wraps(func)
-    def wrapper(*args, **kw):
-        # TODO do we need BaseException
-        try:
-            result = func(*args, *kw)
-        except (Exception, BaseException) as err:
-            return Result.failure(err)
-        return Result.success(result)
+def returns_result(*err_list):
+    def handle_errors(func):
+        exceptions = tuple(set(err_list).union((Exception,)))
 
-    return wrapper
+        @wraps(func)
+        def invoke_func(*args, **kw):
+            try:
+                result = func(*args, *kw)
+            except exceptions as err:
+                return Result.failure(err)
+            return Result.success(result)
+
+        return invoke_func
+
+    return handle_errors

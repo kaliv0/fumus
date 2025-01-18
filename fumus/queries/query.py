@@ -4,8 +4,8 @@ from functools import singledispatchmethod
 from fumus.queries.itertools_mixin import ItertoolsMixin
 from fumus.queries.query_generator import QueryGenerator
 from fumus.utils import Optional, DictItem
-from fumus.decorators import pre_call, handle_consumed
-from fumus.exceptions import NoneTypeError, UnsupportedTypeError, IllegalStateError
+from fumus.decorators.handler import pre_call, handle_consumed
+from fumus.exceptions.exception import NoneTypeError, UnsupportedTypeError, IllegalStateError
 
 
 @pre_call(handle_consumed)
