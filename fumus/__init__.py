@@ -1,6 +1,6 @@
-from fumus.streams.stream import Stream as Stream
+from fumus.queries.query import Query as Query
 # from fumus.utils.dict_item import DictItem as DictItem
 # from fumus.utils.optional import Optional as Optional
 # from fumus.utils.result import Result
 
-# __all__ = ["Stream", "DictItem", "Optional", "Result"]
+# __all__ = ["Query", "DictItem", "Optional", "Result"]

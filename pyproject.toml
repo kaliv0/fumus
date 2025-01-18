@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["kaliv0 <kaloyan.ivanov88@gmail.com>"]
 readme = "README.md"
 description = "Functional musings"
-keywords = ["stream", "functional", "processing", "collections", "fluent API", "queries"]
+keywords = ["query", "functional", "processing", "collections", "fluent API", "queries"]
 repository = "https://github.com/kaliv0/fumus"
 #documentation = "https://fumus.readthedocs.io/en/latest"
 

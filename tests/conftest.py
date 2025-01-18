@@ -44,8 +44,3 @@ def json_dict():
         "Hobbies": ["Reading", "Sketching", "Horse Riding"],
         "Job": None,
     }
-
-
-@pytest.fixture(scope="session")
-def tmp_file_dir(tmp_path_factory):
-    return tmp_path_factory.mktemp("file_stream")

@@ -1,5 +1,5 @@
 exports available to user:
-- Stream (from fumus)
+- Query (from fumus)
 - Optional, Result (from fumus.utils)
 - returns_optional/result (from fumus.decorators)
 

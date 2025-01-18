@@ -3,11 +3,11 @@ from collections.abc import Iterable
 from fumus.decorators import map_dict_items
 
 
-class StreamGenerator:
+class QueryGenerator:
     @staticmethod
     @map_dict_items
-    def concat(*streams):
-        for iterable in streams:
+    def concat(*queries):
+        for iterable in queries:
             yield from iterable
 
     @staticmethod

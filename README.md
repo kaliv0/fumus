@@ -10,4 +10,4 @@
 [![tests](https://img.shields.io/github/actions/workflow/status/kaliv0/fumus/ci.yml)](https://github.com/kaliv0/fumus/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/fumus.svg)](https://pypi.org/project/fumus/)
 
-<br><b>Yet another Functional-style Streams API library</b><br>
+<br><b>Yet another Functional-style Queries API library</b><br>

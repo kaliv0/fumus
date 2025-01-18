@@ -74,12 +74,12 @@ class ItertoolsMixin:
         return self
 
     def ncycles(self, count=0):
-        """Returns the stream elements n times"""
+        """Returns the query elements n times"""
         self.iterable = it.chain.from_iterable(it.repeat(tuple(self.iterable), count))
         return self
 
     def consume(self, n=None):
-        """Advances the iterator n-steps ahead. If n is None, consumes stream entirely"""
+        """Advances the iterator n-steps ahead. If n is None, consumes query entirely"""
         import collections
 
         if n is None:
@@ -91,17 +91,17 @@ class ItertoolsMixin:
         return self
 
     def take_nth(self, idx, default=None):
-        """Returns Optional with the nth element of the stream or a default value"""
+        """Returns Optional with the nth element of the query or a default value"""
         if idx < 0:
             idx = len(self.iterable) + idx
         return Optional.of_nullable(next(it.islice(self.iterable, idx, None), default))
 
     def all_equal(self, key=None):
-        """Returns True if all elements of the stream are equal to each other"""
+        """Returns True if all elements of the query are equal to each other"""
         return len(list(it.islice(it.groupby(self.iterable, key), 2))) <= 1
 
     def view(self, start=0, stop=None, step=None):
-        """Provides access to a selected part of the stream"""
+        """Provides access to a selected part of the query"""
         if start < 0:
             start = len(self.iterable) + start
 
@@ -195,7 +195,7 @@ class ItertoolsMixin:
     def partition(self, predicate):
         """
         Partitions entries into true and false entries.
-        Returns a stream of two nested generators
+        Returns a query of two nested generators
         """
         true_iter, false_iter = it.tee(self.iterable)
         self.iterable = filter(predicate, true_iter), it.filterfalse(predicate, false_iter)
