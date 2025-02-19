@@ -415,7 +415,7 @@ Query(["ABC", "D", "EF"]).round_robin().to_list()
 
 --------------------------------------------
 ### Intermezzo
-As every self-respecting functional-style libary <b>fumus</b> supports
+As a truly self-respecting functional-style libary <b>fumus</b> supports
 <br><i>Option</i> (modeled after Java) and <i>Result</i> patterns (inspired by Rust and Scala).
 <br>Feel free to explore those features as well...
 
