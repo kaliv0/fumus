@@ -902,7 +902,6 @@ def test_nested_json_querying_nested_dict_items(nested_json):
 
 # ### hacker-rank ###
 def test_hackerrank():
-    from curses.ascii import isalpha
     from enum import Enum
 
     # count vowels and constants in given string
@@ -915,7 +914,7 @@ def test_hackerrank():
 
     assert (
         Query(string)
-        .filter(lambda ch: isalpha(ch))
+        .filter(lambda ch: ch.isalpha())
         .partition(lambda ch: ch in all_vowels)
         .enumerate()
         .map(lambda x: (CharType.VOWELS if x[0] == 0 else CharType.CONSONANTS, len(tuple(x[1]))))
