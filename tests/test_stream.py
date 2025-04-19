@@ -923,9 +923,10 @@ def test_hackerrank():
 
 
 @pytest.mark.parametrize(
-    "string, expected", [("a1b2c3c2b1a", True), ("abc321", False), ("x", True)]
+    "string, expected",
+    [("a1b2c3c2b1a", True), ("abc321", False), ("xyyx", True), ("aba", True), ("z", True)],
 )
 def test_leetcode(string, expected):
     # check if given string is palindrome; string length is guaranteed to be > 0
     stop = len(string) // 2 if len(string) > 1 else 1
-    assert Query.from_range(0, stop).none_match(lambda x: string[x] != string[x - 1]) is expected
+    assert Query.from_range(0, stop).all_match(lambda x: string[x] == string[-x - 1]) is expected
