@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "fumus"
 version = "1.1.2"
-authors = ["kaliv0 <kaloyan.ivanov88@gmail.com>"]
+authors = ["kaliv0 <kaliv.zero@gmail.com>"]
 readme = "README.md"
 description = "Functional musings"
 keywords = ["query", "functional", "processing", "collections", "fluent API", "queries"]
